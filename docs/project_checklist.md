@@ -15,19 +15,19 @@
 
 ## Phase 3: Conversion Engine Development
 ### QIFParser Class
-- [ ] Develop the `QIFParser` class to read QIF files.
-- [ ] Implement parsing logic to extract relevant financial data.
-- [ ] Handle different QIF file structures and edge cases.
+- [X] Develop the `QIFParser` class to read QIF files.
+- [X] Implement parsing logic to extract relevant financial data.
+- [X] Handle different QIF file structures and edge cases.
 
 ### CSVGenerator Class
-- [ ] Develop the `CSVGenerator` class to create CSV files from parsed data.
-- [ ] Ensure proper formatting and data integrity in the CSV output.
-- [ ] Implement functionality to handle large datasets efficiently.
+- [X] Develop the `CSVGenerator` class to create CSV files from parsed data.
+- [X] Ensure proper formatting and data integrity in the CSV output.
+- [X] Implement functionality to handle large datasets efficiently.
 
 ### Integration
-- [ ] Integrate the `QIFParser` with the UI for file uploads.
-- [ ] Integrate the `CSVGenerator` with the UI for CSV downloads.
-- [ ] Ensure seamless interaction between the UI and the conversion engine.
+- [X] Integrate the `QIFParser` with the UI for file uploads.
+- [X] Integrate the `CSVGenerator` with the UI for CSV downloads.
+- [X] Ensure seamless interaction between the UI and the conversion engine.
 
 ## Phase 4: Testing
 ### Unit Testing
