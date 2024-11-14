@@ -1,44 +1,61 @@
 import tkinter as tk
-from tkinter import ttk
-from tkinter import messagebox
-import os
+from tkinter import ttk, messagebox
+from pathlib import Path
+import threading
+from typing import Optional
 from core.qif_parser import QIFParser
 from core.csv_generator import CSVGenerator
 from ui.upload_screen import UploadScreen
 from ui.download_screen import DownloadScreen
 
 class MainWindow:
-    def __init__(self, root):
+    """Main window for the QIF to CSV converter application."""
+    
+    def __init__(self, root: tk.Tk):
         self.root = root
+        self.setup_window()
+        self.setup_ui()
+        self.initialize_components()
+        
+    def setup_window(self):
+        """Configure the main window."""
         self.root.title("QIF to CSV Converter")
         self.root.geometry("800x600")
-        
-        # Configure grid weight
         self.root.grid_columnconfigure(0, weight=1)
         self.root.grid_rowconfigure(0, weight=1)
         
-        # Create main frame
+    def setup_ui(self):
+        """Set up the user interface components."""
         self.main_frame = ttk.Frame(self.root, padding="10")
         self.main_frame.grid(row=0, column=0, sticky="nsew")
         
-        # Configure main frame grid weights
+        # Configure main frame grid
         self.main_frame.grid_columnconfigure(0, weight=1)
         for i in range(5):
             self.main_frame.grid_rowconfigure(i, weight=1)
             
+        self._create_widgets()
+        
+    def _create_widgets(self):
+        """Create and configure UI widgets."""
         # Title
-        title_label = ttk.Label(
-            self.main_frame, 
+        self.title_label = ttk.Label(
+            self.main_frame,
             text="QIF to CSV Converter",
             font=('Helvetica', 24)
         )
-        title_label.grid(row=0, column=0, pady=20)
+        self.title_label.grid(row=0, column=0, pady=20)
         
+        # Buttons and progress indicators
+        self._create_control_widgets()
+        
+    def _create_control_widgets(self):
+        """Create control widgets (buttons, progress bar, etc.)."""
         # Upload button
         self.upload_btn = ttk.Button(
             self.main_frame,
             text="Upload QIF File",
-            command=self.upload_file
+            command=self._handle_upload
         )
         self.upload_btn.grid(row=1, column=0, pady=10)
         
@@ -59,22 +76,24 @@ class MainWindow:
         )
         self.status_label.grid(row=3, column=0, pady=10)
         
-        # Download button (initially disabled)
+        # Download button
         self.download_btn = ttk.Button(
             self.main_frame,
             text="Download CSV",
-            command=self.download_file,
+            command=self._handle_download,
             state="disabled"
         )
         self.download_btn.grid(row=4, column=0, pady=10)
         
+    def initialize_components(self):
+        """Initialize components and set up event handlers."""
         self.upload_screen = UploadScreen(self)
         self.download_screen = DownloadScreen(self)
         self.qif_parser = QIFParser()
         self.csv_generator = CSVGenerator()
         self.current_transactions = None
-
-    def upload_file(self):
+        
+    def _handle_upload(self):
         """Handle file upload and conversion."""
         filename = self.upload_screen.select_file()
         if not filename:
@@ -105,7 +124,7 @@ class MainWindow:
             self.status_label.config(text=f"Error: {str(e)}")
             self.progress['value'] = 0
             
-    def download_file(self):
+    def _handle_download(self):
         """Handle CSV file download."""
         if not self.current_transactions:
             self.status_label.config(text="No data to download.")
