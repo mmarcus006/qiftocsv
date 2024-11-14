@@ -6,12 +6,12 @@
 - [X] Install necessary dependencies and libraries.
 
 ## Phase 2: UI Development
-- [ ] Design the main application window layout.
-- [ ] Implement file upload functionality in the UI.
-- [ ] Implement file download functionality in the UI.
-- [ ] Add status indicators for uploads, conversions, and downloads.
-- [ ] Implement error message displays in the UI.
-- [ ] Add a progress bar for the file conversion process.
+- [X] Design the main application window layout.
+- [X] Implement file upload functionality in the UI.
+- [X] Implement file download functionality in the UI.
+- [X] Add status indicators for uploads, conversions, and downloads.
+- [X] Implement error message displays in the UI.
+- [X] Add a progress bar for the file conversion process.
 
 ## Phase 3: Conversion Engine Development
 ### QIFParser Class

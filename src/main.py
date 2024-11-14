@@ -3,7 +3,6 @@ from ui.main_window import MainWindow
 
 def main():
     root = tk.Tk()
-    root.title("QIF to CSV Converter")
     app = MainWindow(root)
     root.mainloop()
 
