@@ -33,7 +33,7 @@ D01/15/2023
 T-1000.00
 PHistorical Test
 ^
-D01/15/2024
+D12/15/2022
 T-2000.00
 PCurrent Test
 ^""",
@@ -45,7 +45,25 @@ SCategory 1
 $-1000.00
 SCategory 2
 $-500.00
-^"""
+^""",
+        'multi_account.qif': """!Type:Bank
+D01/15/2024
+T-1000.00
+PBank Transaction
+LBank Category
+^
+!Type:CCard
+D01/15/2024
+T-500.00
+PCredit Card Transaction
+LCredit Card Category
+^
+!Type:Invst
+D01/15/2024
+T-2000.00
+PInvestment Transaction
+LInvestment Category
+^""",
     }
     
     for filename, content in files.items():

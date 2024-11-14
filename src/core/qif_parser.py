@@ -15,7 +15,9 @@ class QIFParser:
     def _parse_amount(self, value: str) -> float:
         """Parse amount string to float, handling commas."""
         try:
-            # Remove commas and convert to float
+            # Handle empty or whitespace-only values
+            if not value or value.isspace():
+                return 0.0
             return float(value.replace(',', ''))
         except ValueError as e:
             raise ValueError(f"Invalid amount format: {value}") from e
@@ -33,49 +35,61 @@ class QIFParser:
             if not content:
                 raise ValueError("Empty QIF file")
                 
-            # Split into transactions
-            parts = content.split('^')
-            if not parts:
+            # Split into sections by account type
+            sections = content.split('!Type:')
+            if len(sections) < 2:
                 raise ValueError("Invalid QIF file format")
                 
-            # Parse header for account type
-            lines = parts[0].split('\n')
-            if lines and lines[0].startswith('!Type:'):
-                self.account_type = lines[0][6:]  # Remove '!Type:'
+            # Clear previous transactions
+            self.transactions.clear()
+            
+            # Process each section
+            for section in sections[1:]:  # Skip empty first split
+                if not section.strip():
+                    continue
+                    
+                lines = section.strip().split('\n')
+                if not lines:
+                    continue
+                    
+                # Set account type from section header
+                self.account_type = lines[0].strip()
                 current_transaction = {}
                 
                 # Process remaining lines
                 for line in lines[1:]:
-                    if line.strip():
-                        if line.startswith('!Type:'):
-                            if current_transaction:
-                                self.transactions.append(current_transaction)
-                            current_transaction = {}
-                            continue
-                            
-                        code = line[0]
-                        value = line[1:].strip()
+                    if not line.strip():
+                        continue
                         
-                        if code == 'D':  # Date
-                            for fmt in self.DATE_FORMATS:
-                                try:
-                                    current_transaction['date'] = datetime.strptime(value, fmt)
-                                    break
-                                except ValueError:
-                                    continue
-                        elif code == 'T':  # Amount
-                            current_transaction['amount'] = self._parse_amount(value)
-                        elif code == 'P':  # Payee
-                            current_transaction['payee'] = value
-                        elif code == 'M':  # Memo
-                            current_transaction['memo'] = value
-                        elif code == 'L':  # Category
-                            current_transaction['category'] = value
-                        elif code == 'C':  # Cleared status
-                            current_transaction['cleared'] = value
-                        elif code == 'N':  # Number/Reference
-                            current_transaction['reference'] = value
-                            
+                    if line.startswith('^'):
+                        if current_transaction:
+                            self.transactions.append(current_transaction)
+                            current_transaction = {}
+                        continue
+                        
+                    code = line[0]
+                    value = line[1:].strip()
+                    
+                    if code == 'D':  # Date
+                        for fmt in self.DATE_FORMATS:
+                            try:
+                                current_transaction['date'] = datetime.strptime(value, fmt)
+                                break
+                            except ValueError:
+                                continue
+                    elif code == 'T':  # Amount
+                        current_transaction['amount'] = self._parse_amount(value)
+                    elif code == 'P':  # Payee
+                        current_transaction['payee'] = value
+                    elif code == 'M':  # Memo
+                        current_transaction['memo'] = value
+                    elif code == 'L':  # Category
+                        current_transaction['category'] = value
+                    elif code == 'C':  # Cleared status
+                        current_transaction['cleared'] = value
+                    elif code == 'N':  # Number/Reference
+                        current_transaction['reference'] = value
+                        
                 if current_transaction:
                     self.transactions.append(current_transaction)
                     

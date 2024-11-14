@@ -32,7 +32,8 @@ class TestQIFParser(BaseTestCase):
             
     def test_invalid_format(self):
         """Test handling of invalid file formats."""
-        invalid_file = self.create_test_file("Invalid content", "invalid.qif")
+        invalid_content = "This is not a QIF file\nIt has no proper headers"
+        invalid_file = self.create_test_file(invalid_content, "invalid.qif")
         with self.assertRaises(ValueError):
             self.parser.parse_file(invalid_file)
             

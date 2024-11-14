@@ -56,6 +56,9 @@ class TestMainWindow(UITestCase):
         # Mock file selection
         self.window.upload_screen.select_file = lambda: str(invalid_file)
         
+        # Reset progress bar
+        self.window.progress['value'] = 0
+        
         # Trigger upload
         self.window._handle_upload()
         self.wait_for(100)  # Wait for processing
