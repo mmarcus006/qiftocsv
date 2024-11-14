@@ -5,6 +5,8 @@ import subprocess
 import time
 from pathlib import Path
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 
 def pytest_configure(config):
@@ -45,7 +47,9 @@ def selenium_driver():
     options.add_argument("--disable-dev-shm-usage")
     
     try:
-        driver = webdriver.Chrome(options=options)
+        # Use webdriver_manager to handle driver installation
+        service = Service(ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=service, options=options)
         yield driver
     finally:
         if 'driver' in locals():

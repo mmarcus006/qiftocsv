@@ -4,4 +4,6 @@
 - [X] Integrate Streamlit components for status indicators and progress tracking.
 - [X] Implement automated UI tests using Selenium and pytest.
 - [X] Fix test framework compatibility issues
-- [X] Implement robust test logging and error handling 
+- [X] Implement robust test logging and error handling
+- [X] Fix Selenium WebDriver configuration
+- [X] Update investment transaction test data 

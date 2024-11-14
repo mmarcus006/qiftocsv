@@ -8,14 +8,18 @@ class TestQIFParser5383(unittest.TestCase):
         self.parser = QIFParser()
         self.sample_file = Path(__file__).parent / 'samples' / '5383_Investment.QIF'
         
+        # Create sample file with valid investment transaction data
         if not self.sample_file.exists():
             self.sample_file.parent.mkdir(parents=True, exist_ok=True)
             with open(self.sample_file, 'w') as f:
                 f.write('!Type:Invst\n')
-                f.write('D01/01/2020\n')
-                f.write('N1000.00\n')
-                f.write('YBUY\n')
-                f.write('^\n')
+                f.write('D07/07/2024\n')  # Date
+                f.write('N19049.26\n')    # Amount
+                f.write('YBUY\n')         # Transaction type
+                f.write('IAAPL\n')        # Security
+                f.write('Q100\n')         # Quantity
+                f.write('P190.4926\n')    # Price
+                f.write('^\n')            # End of transaction
         
         self.parser.parse_file(self.sample_file)
     
@@ -33,14 +37,10 @@ class TestQIFParser5383(unittest.TestCase):
         first_trans = transactions[0]
         self.assertEqual(first_trans['date'], datetime(2024, 7, 7))
         self.assertEqual(first_trans['amount'], 19049.26)
-        
-        # Verify investment-specific fields when present
-        for trans in transactions:
-            if 'type' in trans and trans['type'] in self.parser.INVESTMENT_TYPES:
-                self.assertIn('security', trans)
-                if trans['type'] in {'Buy', 'Sell', 'ShrsIn', 'ShrsOut'}:
-                    self.assertIn('quantity', trans)
-                    self.assertIn('price', trans)
+        self.assertEqual(first_trans['type'], 'Buy')
+        self.assertEqual(first_trans['security'], 'AAPL')
+        self.assertEqual(first_trans['quantity'], 100.0)
+        self.assertEqual(first_trans['price'], 190.4926)
         
     def test_transaction_integrity(self):
         """Test integrity of transaction data"""

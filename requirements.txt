@@ -1,7 +1,8 @@
-pytest>=6.0.0,<7.0.0
-pyinstaller
-pyinstaller-hooks-contrib
-selenium==4.9.0
-pytest-selenium==4.0.0
 tenacity>=8.1.0,<10.0.0
 streamlit>=1.40.1
+pytest>=6.0.0,<7.0.0
+selenium==4.9.0
+pytest-selenium<=4.1.0
+webdriver-manager>=3.8.0
+pyinstaller
+pyinstaller-hooks-contrib
