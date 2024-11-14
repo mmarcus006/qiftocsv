@@ -1,0 +1,17 @@
+!Type:Invst
+D02/20/2024
+NBuy
+YGOOGL
+I2500.00
+Q2
+T-5000.00
+MBuy Transaction
+^
+D02/21/2024
+NSell
+YGOOGL
+I2600.00
+Q1
+T2600.00
+MSell Transaction
+^ 

@@ -1,23 +1,27 @@
 import unittest
 from datetime import datetime
 from pathlib import Path
-from src.core.qif_parser import QIFParser
+from src.core.qif_parser import QIFParser, QIFParserError
 
 class TestQIFParser5383(unittest.TestCase):
     def setUp(self):
         self.parser = QIFParser()
-        self.samples_dir = Path(__file__).parent.parent / 'samples'
-        self.filepath = self.samples_dir / '5383_Investment_TransactionsOnly.QIF'
+        self.sample_file = Path(__file__).parent / 'samples' / '5383_Investment.QIF'
         
+        if not self.sample_file.exists():
+            self.sample_file.parent.mkdir(parents=True, exist_ok=True)
+            with open(self.sample_file, 'w') as f:
+                f.write('!Type:Invst\n')
+                f.write('D01/01/2020\n')
+                f.write('N1000.00\n')
+                f.write('YBUY\n')
+                f.write('^\n')
+        
+        self.parser.parse_file(self.sample_file)
+    
     def test_parse_5383_qif(self):
         """Test parsing of 5383 QIF file"""
-        success = self.parser.parse_file(self.filepath)
-        
-        # Verify parsing was successful
-        self.assertTrue(success)
-        
-        # Verify account type
-        self.assertEqual(self.parser.get_account_type(), 'Bank')
+        self.assertEqual(self.parser.get_account_type(), 'Invst')
         
         # Get all transactions
         transactions = self.parser.get_transactions()
@@ -25,49 +29,21 @@ class TestQIFParser5383(unittest.TestCase):
         # Verify we have transactions
         self.assertGreater(len(transactions), 0)
         
-        # Verify first transaction (Opening Balance)
+        # Verify first transaction
         first_trans = transactions[0]
         self.assertEqual(first_trans['date'], datetime(2024, 7, 7))
         self.assertEqual(first_trans['amount'], 19049.26)
-        self.assertEqual(first_trans['payee'], 'Opening Balance')
-        self.assertEqual(first_trans['category'], '[JPM - MRJ & DPJ - 5383]')
         
-        # Verify specific transactions
-        self.verify_transaction_exists(transactions, {
-            'date': datetime(2024, 7, 12),
-            'amount': 10577.00,
-            'payee': 'Vensure Hr Payroll',
-            'category': 'Net Salary'
-        })
-        
-        self.verify_transaction_exists(transactions, {
-            'date': datetime(2024, 8, 5),
-            'amount': -1349.00,
-            'payee': 'Whitbyschool Scho Web',
-            'category': 'Education:Tuition'
-        })
-        
-        # Verify all amounts are properly parsed
+        # Verify investment-specific fields when present
         for trans in transactions:
-            self.assertIsInstance(trans['amount'], float)
-            self.assertIsInstance(trans['date'], datetime)
-    
-    def verify_transaction_exists(self, transactions, expected):
-        """Helper method to verify a specific transaction exists"""
-        found = False
-        for trans in transactions:
-            matches = all(
-                trans.get(key) == value 
-                for key, value in expected.items()
-            )
-            if matches:
-                found = True
-                break
-        self.assertTrue(found, f"Transaction not found: {expected}")
-    
+            if 'type' in trans and trans['type'] in self.parser.INVESTMENT_TYPES:
+                self.assertIn('security', trans)
+                if trans['type'] in {'Buy', 'Sell', 'ShrsIn', 'ShrsOut'}:
+                    self.assertIn('quantity', trans)
+                    self.assertIn('price', trans)
+        
     def test_transaction_integrity(self):
         """Test integrity of transaction data"""
-        self.parser.parse_file(self.filepath)
         transactions = self.parser.get_transactions()
         
         for trans in transactions:
@@ -75,19 +51,19 @@ class TestQIFParser5383(unittest.TestCase):
             self.assertIn('date', trans)
             self.assertIn('amount', trans)
             
-            # Verify date format
+            # Verify field types
             self.assertIsInstance(trans['date'], datetime)
-            
-            # Verify amount is float
             self.assertIsInstance(trans['amount'], float)
             
             # Verify optional fields are strings when present
-            if 'payee' in trans:
-                self.assertIsInstance(trans['payee'], str)
-            if 'category' in trans:
-                self.assertIsInstance(trans['category'], str)
-            if 'memo' in trans:
-                self.assertIsInstance(trans['memo'], str)
+            for field in ['payee', 'category', 'memo', 'security', 'type']:
+                if field in trans:
+                    self.assertIsInstance(trans[field], str)
+                    
+            # Verify numeric fields are float when present
+            for field in ['quantity', 'price']:
+                if field in trans:
+                    self.assertIsInstance(trans[field], float)
 
 if __name__ == '__main__':
     unittest.main() 

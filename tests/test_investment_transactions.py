@@ -49,11 +49,16 @@ class TestInvestmentTransactions(BaseTestCase):
         transactions = self.parser.get_transactions()
         
         for transaction in transactions:
-            if all(field in transaction for field in ['quantity', 'price', 'amount']):
-                # Verify amount equals quantity times price
-                calculated_amount = float(transaction['quantity']) * float(transaction['price'])
+            if all(field in transaction for field in ['quantity', 'price', 'amount', 'type']):
+                if transaction['type'] == 'Buy':
+                    expected_amount = -float(transaction['quantity']) * float(transaction['price'])
+                elif transaction['type'] == 'Sell':
+                    expected_amount = float(transaction['quantity']) * float(transaction['price'])
+                else:
+                    expected_amount = float(transaction['quantity']) * float(transaction['price'])  # Default case
                 self.assertAlmostEqual(
-                    float(transaction['amount']),
-                    calculated_amount,
-                    places=2
+                    transaction['amount'],
+                    expected_amount,
+                    places=2,
+                    msg=f"Amount mismatch for transaction type {transaction['type']}"
                 ) 

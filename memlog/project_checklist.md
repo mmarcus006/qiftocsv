@@ -1,0 +1,5 @@
+## Phase 2: UI Development
+- [X] Redo the entire design using Streamlit.
+- [X] Implement drag-and-drop file uploading.
+- [X] Integrate Streamlit components for status indicators and progress tracking.
+- [X] Implement automated UI tests using Selenium and pytest. 

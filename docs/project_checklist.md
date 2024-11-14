@@ -31,28 +31,33 @@
 
 ## Phase 4: Testing
 ### Unit Testing
-- [ ] Write unit tests for the `QIFParser` class.
-- [ ] Write unit tests for the `CSVGenerator` class.
-- [ ] Test parsing logic with various QIF file inputs.
+- [X] Write unit tests for the `QIFParser` class.
+- [X] Write unit tests for the `CSVGenerator` class.
+- [X] Test parsing logic with various QIF file inputs.
 
 ### Integration Testing
-- [ ] Verify UI interactions with the file handler module.
-- [ ] Ensure file uploads and downloads work seamlessly with the conversion process.
+- [X] Verify UI interactions with the file handler module.
+- [X] Ensure file uploads and downloads work seamlessly with the conversion process.
 
 ### System Testing
-- [ ] Test the entire application workflow from file upload to CSV download.
-- [ ] Validate performance with large QIF files (up to 10MB).
+- [X] Test the entire application workflow from file upload to CSV download.
+- [X] Validate performance with large QIF files (up to 10MB).
 
 ### User Acceptance Testing
-- [ ] Engage a group of users to test the application in real-world scenarios.
-- [ ] Collect feedback and identify usability or functionality issues.
-- [ ] Make necessary adjustments based on user feedback.
+- [X] Engage a group of users to test the application in real-world scenarios.
+- [X] Collect feedback and identify usability or functionality issues.
+- [X] Make necessary adjustments based on user feedback.
 
 ## Phase 5: Deployment
+### Packaging
 - [ ] Package the application for distribution on Windows.
 - [ ] Package the application for distribution on macOS.
 - [ ] Package the application for distribution on Linux.
+
+### Documentation
 - [ ] Create user documentation and guides.
+
+### Release
 - [ ] Release the application to the intended user base.
 
 ## Requirements Gathering
