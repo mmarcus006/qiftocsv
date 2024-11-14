@@ -1,0 +1,9 @@
+!Type:Bank
+D01/15/2024
+T-1500.00
+PSplit Test
+SCategory 1
+$-1000.00
+SCategory 2
+$-500.00
+^

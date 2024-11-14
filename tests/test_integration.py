@@ -52,6 +52,8 @@ class TestIntegration(BaseTestCase):
         """Test handling of large QIF files."""
         # Create a large QIF file (multiple transactions)
         transactions = []
+        transactions.append("!Type:Bank")  # Add header first
+        
         for i in range(1000):  # 1000 transactions
             transactions.extend([
                 f"D01/{i%28+1}/2024",
@@ -61,14 +63,14 @@ class TestIntegration(BaseTestCase):
                 "^"
             ])
             
-        qif_content = "!Type:Bank\n" + "\n".join(transactions)
+        qif_content = "\n".join(transactions)
         qif_file = self.create_test_file(qif_content, "large.qif")
         
         # Process file
         self.parser.parse_file(qif_file)
         transactions = self.parser.get_transactions()
         
-        # Verify transaction count (including header)
+        # Verify transaction count
         self.assertEqual(len(transactions), 1000)
         
         # Generate and verify CSV

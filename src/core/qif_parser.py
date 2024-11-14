@@ -12,6 +12,14 @@ class QIFParser:
         self.transactions: List[Dict] = []
         self.account_type: Optional[str] = None
         
+    def _parse_amount(self, value: str) -> float:
+        """Parse amount string to float, handling commas."""
+        try:
+            # Remove commas and convert to float
+            return float(value.replace(',', ''))
+        except ValueError as e:
+            raise ValueError(f"Invalid amount format: {value}") from e
+    
     def parse_file(self, filepath: str | Path) -> bool:
         """Parse a QIF file and store the transactions."""
         try:
@@ -56,7 +64,7 @@ class QIFParser:
                                 except ValueError:
                                     continue
                         elif code == 'T':  # Amount
-                            current_transaction['amount'] = float(value)
+                            current_transaction['amount'] = self._parse_amount(value)
                         elif code == 'P':  # Payee
                             current_transaction['payee'] = value
                         elif code == 'M':  # Memo
