@@ -1,6 +1,7 @@
-pytest
+pytest>=6.0.0,<7.0.0
 pyinstaller
 pyinstaller-hooks-contrib
-pytest==7.2.2
 selenium==4.9.0
-pytest-selenium==1.0.0
+pytest-selenium==4.0.0
+tenacity>=8.1.0,<10.0.0
+streamlit>=1.40.1
