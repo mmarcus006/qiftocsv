@@ -1,8 +1,8 @@
 from pathlib import Path
 from datetime import datetime
-from qiftocsv.src.core.qif_parser import QIFParser
-from qiftocsv.src.core.csv_generator import CSVGenerator
-from qiftocsv.tests.test_base import BaseTestCase
+from src.core.qif_parser import QIFParser
+from src.core.csv_generator import CSVGenerator
+from tests.test_base import BaseTestCase
 
 class TestInvestmentTransactions(BaseTestCase):
     """Test cases for investment transaction handling."""

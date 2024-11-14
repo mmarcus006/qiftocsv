@@ -15,11 +15,11 @@ class TestMainWindow(UITestCase):
         
         # Check initial button states
         self.assertEqual(
-            self.window.download_btn['state'],
+            str(self.window.download_btn['state']),
             'disabled'
         )
         self.assertEqual(
-            self.window.upload_btn['state'],
+            str(self.window.upload_btn['state']),
             'normal'
         )
         

@@ -68,7 +68,7 @@ class TestIntegration(BaseTestCase):
         self.parser.parse_file(qif_file)
         transactions = self.parser.get_transactions()
         
-        # Verify transaction count
+        # Verify transaction count (including header)
         self.assertEqual(len(transactions), 1000)
         
         # Generate and verify CSV
