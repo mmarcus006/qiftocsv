@@ -1,8 +1,8 @@
 from pathlib import Path
 from datetime import datetime
-from src.core.qif_parser import QIFParser
-from src.core.csv_generator import CSVGenerator
-from .test_base import BaseTestCase
+from qiftocsv.src.core.qif_parser import QIFParser
+from qiftocsv.src.core.csv_generator import CSVGenerator
+from qiftocsv.tests.test_base import BaseTestCase
 
 class TestRealWorldSamples(BaseTestCase):
     """Test cases using real-world QIF sample files."""

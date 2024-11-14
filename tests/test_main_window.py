@@ -1,5 +1,5 @@
-from src.ui.main_window import MainWindow
-from .test_ui_base import UITestCase
+from qiftocsv.src.ui.main_window import MainWindow
+from qiftocsv.tests.test_ui_base import UITestCase
 
 class TestMainWindow(UITestCase):
     """Test cases for MainWindow class."""

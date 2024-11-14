@@ -1,7 +1,7 @@
 from pathlib import Path
-from src.core.qif_parser import QIFParser
-from src.core.csv_generator import CSVGenerator
-from .test_base import BaseTestCase
+from qiftocsv.src.core.qif_parser import QIFParser
+from qiftocsv.src.core.csv_generator import CSVGenerator
+from qiftocsv.tests.test_base import BaseTestCase
 
 class TestIntegration(BaseTestCase):
     """Integration tests for QIF to CSV conversion."""
