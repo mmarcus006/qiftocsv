@@ -1,7 +1,5 @@
-from pathlib import Path
-from datetime import datetime
-from qiftocsv.src.core.qif_parser import QIFParser
-from qiftocsv.tests.test_base import BaseTestCase
+from src.core.qif_parser import QIFParser
+from tests.test_base import BaseTestCase
 
 class TestQIFParser(BaseTestCase):
     """Test cases for QIFParser class."""

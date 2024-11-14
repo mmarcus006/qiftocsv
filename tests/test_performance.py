@@ -2,7 +2,7 @@ import time
 from pathlib import Path
 from src.core.qif_parser import QIFParser
 from src.core.csv_generator import CSVGenerator
-from .test_base import BaseTestCase
+from tests.test_base import BaseTestCase
 
 class TestPerformance(BaseTestCase):
     """Performance tests for QIF to CSV conversion."""

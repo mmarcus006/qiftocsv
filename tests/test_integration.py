@@ -1,4 +1,3 @@
-from pathlib import Path
 from src.core.qif_parser import QIFParser
 from src.core.csv_generator import CSVGenerator
 from tests.test_base import BaseTestCase

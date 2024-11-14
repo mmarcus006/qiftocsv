@@ -3,10 +3,10 @@ from tkinter import ttk, messagebox
 from pathlib import Path
 import threading
 from typing import Optional
-from core.qif_parser import QIFParser
-from core.csv_generator import CSVGenerator
-from ui.upload_screen import UploadScreen
-from ui.download_screen import DownloadScreen
+from src.core.qif_parser import QIFParser
+from src.core.csv_generator import CSVGenerator
+from src.ui.upload_screen import UploadScreen
+from src.ui.download_screen import DownloadScreen
 
 class MainWindow:
     """Main window for the QIF to CSV converter application."""

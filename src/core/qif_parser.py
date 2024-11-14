@@ -6,26 +6,14 @@ from pathlib import Path
 class QIFParser:
     """Parser for QIF (Quicken Interchange Format) files."""
     
-    DATE_FORMATS = ['%m/%d/%Y', '%m/%d/%y', '%Y-%m-%d']  # Class constant
+    DATE_FORMATS = ['%m/%d/%Y', '%m/%d/%y', '%Y-%m-%d']
     
     def __init__(self):
         self.transactions: List[Dict] = []
         self.account_type: Optional[str] = None
         
     def parse_file(self, filepath: str | Path) -> bool:
-        """
-        Parse a QIF file and store the transactions.
-        
-        Args:
-            filepath: Path to the QIF file
-            
-        Returns:
-            bool: True if parsing was successful
-            
-        Raises:
-            FileNotFoundError: If the file doesn't exist
-            ValueError: If the file format is invalid
-        """
+        """Parse a QIF file and store the transactions."""
         try:
             filepath = Path(filepath)
             if not filepath.exists():
@@ -38,28 +26,28 @@ class QIFParser:
                 raise ValueError("Empty QIF file")
                 
             # Split into header and transactions
-            parts = content.split('\n^\n')
+            parts = content.split('^')
             if not parts:
                 raise ValueError("Invalid QIF file format")
                 
-            header, *transactions = parts
-            
             # Parse header for account type
-            self.account_type = self._parse_header(header)
+            header_lines = parts[0].split('\n')
+            self.account_type = self._parse_header(header_lines[0])
             
             # Clear previous transactions
             self.transactions.clear()
             
             # Parse each transaction
-            for transaction in transactions:
-                if transaction.strip():
-                    parsed_transaction = self._parse_transaction(transaction)
+            current_transaction = {}
+            for part in parts[1:]:  # Skip header
+                if part.strip():
+                    parsed_transaction = self._parse_transaction(part)
                     if parsed_transaction:
                         self.transactions.append(parsed_transaction)
                         
             return True
             
-        except (UnicodeDecodeError, IOError) as e:
+        except Exception as e:
             raise ValueError(f"Error reading QIF file: {str(e)}")
     
     def _parse_header(self, header: str) -> str:

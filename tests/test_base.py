@@ -2,6 +2,7 @@ import unittest
 from pathlib import Path
 import tempfile
 import shutil
+import os
 
 class BaseTestCase(unittest.TestCase):
     """Base test case with common utilities for QIF to CSV converter tests."""
@@ -20,7 +21,14 @@ class BaseTestCase(unittest.TestCase):
         
     def create_test_file(self, content: str, filename: str) -> Path:
         """Create a test file with given content."""
-        filepath = self.test_dir / filename
+        # Ensure filename doesn't contain path separators
+        safe_filename = Path(filename).name
+        filepath = self.test_dir / safe_filename
+        
+        # Create parent directories if needed
+        filepath.parent.mkdir(parents=True, exist_ok=True)
+        
+        # Write content
         filepath.write_text(content, encoding='utf-8')
         return filepath
         

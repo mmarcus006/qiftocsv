@@ -1,8 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
-import unittest
-from pathlib import Path
-from qiftocsv.tests.test_base import BaseTestCase
+from tests.test_base import BaseTestCase
 
 class UITestCase(BaseTestCase):
     """Base class for UI testing."""

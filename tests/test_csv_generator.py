@@ -1,8 +1,8 @@
 import csv
 from io import StringIO
 from datetime import datetime
-from qiftocsv.src.core.csv_generator import CSVGenerator
-from qiftocsv.tests.test_base import BaseTestCase
+from src.core.csv_generator import CSVGenerator
+from tests.test_base import BaseTestCase
 
 class TestCSVGenerator(BaseTestCase):
     """Test cases for CSVGenerator class."""
