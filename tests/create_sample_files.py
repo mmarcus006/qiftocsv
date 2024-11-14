@@ -64,6 +64,38 @@ T-2000.00
 PInvestment Transaction
 LInvestment Category
 ^""",
+        '5383_Investment_TransactionsOnly.txt': """!Type:Invst
+D01/15/2024
+NBuy
+YAAPL
+I150.00
+Q10
+T-1500.00
+^
+D01/16/2024
+NSell
+YAAPL
+I160.00
+Q5
+T800.00
+^""",
+        '5383_Investment_AllExports.txt': """!Type:Invst
+D01/15/2024
+NBuy
+YAAPL
+I150.00
+Q10
+T-1500.00
+MBuy Transaction
+^
+D01/16/2024
+NSell
+YAAPL
+I160.00
+Q5
+T800.00
+MSell Transaction
+^"""
     }
     
     for filename, content in files.items():
