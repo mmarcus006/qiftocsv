@@ -8,6 +8,10 @@ sys.path.append(str(src_path))
 
 def run_tests():
     """Run all tests in the test suite."""
+    # Add project root to Python path
+    project_root = Path(__file__).parent.parent
+    sys.path.append(str(project_root))
+
     # Discover and run tests
     loader = unittest.TestLoader()
     start_dir = Path(__file__).parent
