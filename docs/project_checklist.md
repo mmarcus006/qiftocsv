@@ -1,9 +1,9 @@
 # Project Checklist
 
 ## Phase 1: Setup
-- [ ] Initialize the project repository on GitHub.
-- [ ] Set up a Python virtual environment.
-- [ ] Install necessary dependencies and libraries.
+- [X] Initialize the project repository on GitHub.
+- [X] Set up a Python virtual environment.
+- [X] Install necessary dependencies and libraries.
 
 ## Phase 2: UI Development
 - [ ] Design the main application window layout.
